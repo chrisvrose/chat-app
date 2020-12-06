@@ -12,7 +12,7 @@ const sidebarTemplate = document.querySelector("#sidebar-template").innerHTML;
 
 const {username,room}=Qs.parse(location.search,{ignoreQueryPrefix:true});
 
-const autoscroll = () => {
+function autoscroll() {
 
     const $newMessage = $messages.lastElementChild;
 
@@ -39,11 +39,12 @@ const autoscroll = () => {
 
 socket.on("message",(message)=>{
     console.log(message);
-    const html = Mustache.render(messageTemplate,{
-        username:message.username,
-        message:message.text,
-        createdAt:moment(message.createdAt).format("h:mm a")
-    });
+    
+    const html = messageTemplate
+        .replace('{{username}}',message.username)
+        .replace('{{message}}',message.text)
+        .replace('{{createdAt}}',moment(message.createdAt).format("h:mm a"));
+    
     $messages.insertAdjacentHTML("beforeend",html);
     autoscroll();
  
@@ -52,21 +53,23 @@ socket.on("message",(message)=>{
 
 socket.on("locationMessage",(locationMessage)=>{
     console.log(locationMessage);
-    const html = Mustache.render(locationMessageTemplate,{
-        username:locationMessage.username,
-        url:locationMessage.url,
-        createdAt:moment(locationMessage.createdAt).format("h:mm a")
-    });
+    
+    const html = locationMessageTemplate
+        .replace('{{username}}',locationMessage.username)
+        .replace('{{url}}',locationMessage.url)
+        .replace('{{createdAt}}',moment(locationMessage.createdAt).format("h:mm a"));
+    
+    
     $messages.insertAdjacentHTML("beforeend",html);
     autoscroll();
    
 })
 
 socket.on("roomData",({room,users})=>{
-    const html = Mustache.render(sidebarTemplate,{
-        room:room,
-        users:users
-    })
+    console.log('users',users);
+    const html = sidebarTemplate
+        .replace('{{room}}',room)
+        .replace('{{users}}',users.map(user=>`<li>${user.username}</li>`).join('\n'))
     document.querySelector("#sidebar").innerHTML = html;
 });
 

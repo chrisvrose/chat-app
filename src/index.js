@@ -2,10 +2,13 @@ const path = require("path");
 const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
+const morgan = require('morgan');
+
 const {generateMessage,generateLocationMessage} = require("./utils/messages");
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
 
 const app = express();
+app.use(morgan('dev'));
 const server = http.createServer(app);
 const io = socketio(server);
 

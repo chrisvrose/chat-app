@@ -4,7 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=0.9">
 	<title>Chat App</title>
         <link rel="icon" href="/img/favicon.png">
-        <link rel="stylesheet" href="/css/styles.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body>
         <div class="chat">
@@ -47,13 +47,11 @@
             <h2 class="room-title">{{room}}</h2>
             <h3 class="list-title">Users</h3>
             <ul class="users">
-                {{#users}}
-                    <li>{{username}}</li>
-                {{/users}}
+                {{users}}
             </ul>
         </script>
 
-        <script src="/js/mustache.min.js"></script>
+        <!-- <script src="/js/mustache.min.js"></script> -->
         <script src="/js/moment.min.js"></script>
         <script src="/js/qs.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
